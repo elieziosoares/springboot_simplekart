@@ -3,25 +3,28 @@ package ifrn.eliezio.simplekart.simplekart.resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ifrn.eliezio.simplekart.simplekart.domain.*;
+import ifrn.eliezio.simplekart.simplekart.services.CategoriaService;
 
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Categoria> listar(){
-        Categoria c1 = new Categoria(1,"Informática");
-        Categoria c2 = new Categoria(2,"Escritório");
 
-        List<Categoria> lista = new ArrayList<>();
-        lista.add(c1);
-        lista.add(c2);
+    @Autowired
+    private CategoriaService catService;
+    
+    @RequestMapping(value="/{id}",method = RequestMethod.GET)
+    public ResponseEntity<?> find(@PathVariable Integer id){
         
-        return lista;
+        Categoria cat = catService.buscar(id);
+        return ResponseEntity.ok().body(cat);
+
     }
 }
