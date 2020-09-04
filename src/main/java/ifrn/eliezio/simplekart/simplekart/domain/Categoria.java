@@ -1,11 +1,14 @@
 package ifrn.eliezio.simplekart.simplekart.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +24,10 @@ public @Data class Categoria implements Serializable{
     private int id;
     private String nome;
 
-    public Categoria(String nome){
+    @ManyToMany(mappedBy = "categorias")
+    private List<Produto> produtos = new ArrayList<>();
+
+    public Categoria(final String nome) {
         this.nome = nome;
     }
 }
