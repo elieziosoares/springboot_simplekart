@@ -7,11 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+
 @NoArgsConstructor
 @Entity
 public @Data class Categoria implements Serializable{
@@ -21,4 +20,8 @@ public @Data class Categoria implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nome;
+
+    public Categoria(String nome){
+        this.nome = nome;
+    }
 }
