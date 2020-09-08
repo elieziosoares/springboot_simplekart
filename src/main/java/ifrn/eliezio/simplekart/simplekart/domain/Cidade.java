@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +24,7 @@ public @Data class Cidade implements Serializable{
     private Integer id;
     private String nome;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "estado_id")
     public Estado estado;

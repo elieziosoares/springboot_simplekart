@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import ifrn.eliezio.simplekart.simplekart.domain.Categoria;
 import ifrn.eliezio.simplekart.simplekart.domain.Cidade;
+import ifrn.eliezio.simplekart.simplekart.domain.Cliente;
+import ifrn.eliezio.simplekart.simplekart.domain.Endereco;
 import ifrn.eliezio.simplekart.simplekart.domain.Estado;
 import ifrn.eliezio.simplekart.simplekart.domain.Produto;
+import ifrn.eliezio.simplekart.simplekart.domain.enums.TipoCliente;
 import ifrn.eliezio.simplekart.simplekart.repositories.CategoriaRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.CidadeRepository;
+import ifrn.eliezio.simplekart.simplekart.repositories.ClienteRepository;
+import ifrn.eliezio.simplekart.simplekart.repositories.EnderecoRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.EstadoRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class SimplekartApplication implements CommandLineRunner{
 	EstadoRepository estadoRepository;
 	@Autowired
 	CidadeRepository cidadeRepository;
+	@Autowired
+	ClienteRepository clienteRepository;
+	@Autowired
+	EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SimplekartApplication.class, args);
@@ -63,6 +72,17 @@ public class SimplekartApplication implements CommandLineRunner{
 		
 		estadoRepository.saveAll(Arrays.asList(estado1,estado2));
 		cidadeRepository.saveAll(Arrays.asList(cidade1,cidade2,cidade3));
+
+		Cliente cli1 = new Cliente("Misael", "misaeldias@hotmail.com", "123456", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("99849891","99998888"));
+
+		Endereco end1 = new Endereco("Rua do Amor","100Fim",null,"Paraíso","123");
+		Endereco end2 = new Endereco("Rua dos Pintassilgos","70","1303C","Pitimbú","59078-300");
+
+		cli1.getEnderecos().addAll(Arrays.asList(end1,end2));
+
+		enderecoRepository.saveAll(Arrays.asList(end1,end2));
+		clienteRepository.saveAll(Arrays.asList(cli1));
 	}
 
 }
