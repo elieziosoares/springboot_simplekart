@@ -22,7 +22,7 @@ public class CategoriaResource {
     
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
     public ResponseEntity<?> find(@PathVariable Integer id){
-        
+        System.out.println("------ ENTROOOOOOUUUUU ---------------");
         Categoria cat = catService.buscar(id);
         return ResponseEntity.ok().body(cat);
 
