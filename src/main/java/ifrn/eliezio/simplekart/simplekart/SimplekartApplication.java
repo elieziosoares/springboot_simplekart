@@ -76,13 +76,13 @@ public class SimplekartApplication implements CommandLineRunner{
 		Cliente cli1 = new Cliente("Misael", "misaeldias@hotmail.com", "123456", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("99849891","99998888"));
 
-		Endereco end1 = new Endereco("Rua do Amor","100Fim",null,"Paraíso","123");
-		Endereco end2 = new Endereco("Rua dos Pintassilgos","70","1303C","Pitimbú","59078-300");
+		Endereco end1 = new Endereco("Rua do Amor","100Fim",null,"Paraíso","123",cli1,cidade2);
+		Endereco end2 = new Endereco("Rua dos Pintassilgos","70","1303C","Pitimbú","59078-300",cli1,cidade1);
 
 		cli1.getEnderecos().addAll(Arrays.asList(end1,end2));
 
-		enderecoRepository.saveAll(Arrays.asList(end1,end2));
 		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(end1,end2));
 	}
 
 }
