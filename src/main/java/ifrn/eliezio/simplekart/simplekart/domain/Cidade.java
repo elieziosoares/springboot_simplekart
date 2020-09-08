@@ -1,33 +1,35 @@
 package ifrn.eliezio.simplekart.simplekart.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Entity
-public @Data class Estado implements Serializable {
+@NoArgsConstructor
+public @Data class Cidade implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Id
+    private Integer id;
     private String nome;
 
-    @OneToMany(mappedBy = "estado")
-    private List<Cidade> cidades = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "estado_id")
+    public Estado estado;
 
-    public Estado(String nome) {
+    public Cidade(String nome, Estado estado) {
         this.nome = nome;
+        this.estado = estado;
     }
+
     
 }
