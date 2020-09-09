@@ -1,5 +1,6 @@
 package ifrn.eliezio.simplekart.simplekart;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import ifrn.eliezio.simplekart.simplekart.domain.Cidade;
 import ifrn.eliezio.simplekart.simplekart.domain.Cliente;
 import ifrn.eliezio.simplekart.simplekart.domain.Endereco;
 import ifrn.eliezio.simplekart.simplekart.domain.Estado;
+import ifrn.eliezio.simplekart.simplekart.domain.Pagamento;
+import ifrn.eliezio.simplekart.simplekart.domain.PagamentoComBoleto;
+import ifrn.eliezio.simplekart.simplekart.domain.PagamentoComCartao;
+import ifrn.eliezio.simplekart.simplekart.domain.Pedido;
 import ifrn.eliezio.simplekart.simplekart.domain.Produto;
+import ifrn.eliezio.simplekart.simplekart.domain.enums.EstadoPagamento;
 import ifrn.eliezio.simplekart.simplekart.domain.enums.TipoCliente;
 import ifrn.eliezio.simplekart.simplekart.repositories.CategoriaRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.CidadeRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.ClienteRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.EnderecoRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.EstadoRepository;
+import ifrn.eliezio.simplekart.simplekart.repositories.PagamentoRepository;
+import ifrn.eliezio.simplekart.simplekart.repositories.PedidoRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -36,6 +44,10 @@ public class SimplekartApplication implements CommandLineRunner{
 	ClienteRepository clienteRepository;
 	@Autowired
 	EnderecoRepository enderecoRepository;
+	@Autowired
+	PedidoRepository pedidoRepository;
+	@Autowired
+	PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SimplekartApplication.class, args);
@@ -83,6 +95,22 @@ public class SimplekartApplication implements CommandLineRunner{
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(end1,end2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido ped1 = new Pedido(sdf.parse("30/09/2017 10:32"), end1, cli1);
+		Pedido ped2 = new Pedido(sdf.parse("10/10/2017 19:35"), end2, cli1);
+		
+		Pagamento pgto1 = new PagamentoComCartao(EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pgto1);
+
+		Pagamento pgto2 = new PagamentoComBoleto(EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pgto2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1,ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pgto1,pgto2));
 	}
 
 }
