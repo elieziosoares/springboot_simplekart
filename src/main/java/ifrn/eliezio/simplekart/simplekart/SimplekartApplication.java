@@ -102,8 +102,8 @@ public class SimplekartApplication implements CommandLineRunner{
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-		Pedido ped1 = new Pedido(sdf.parse("30/09/2017 10:32"), end1, cli1);
-		Pedido ped2 = new Pedido(sdf.parse("10/10/2017 19:35"), end2, cli1);
+		Pedido ped1 = new Pedido(null,sdf.parse("30/09/2017 10:32"), cli1,end1);
+		Pedido ped2 = new Pedido(null,sdf.parse("10/10/2017 19:35"),cli1, end2);
 		
 		Pagamento pgto1 = new PagamentoComCartao(EstadoPagamento.QUITADO, ped1, 6);
 		ped1.setPagamento(pgto1);
@@ -119,6 +119,9 @@ public class SimplekartApplication implements CommandLineRunner{
 		ItemPedido item1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.0);
 		ItemPedido item2 = new ItemPedido(ped1, p3, 0.0, 2, 80.0);
 		ItemPedido item3 = new ItemPedido(ped2, p2, 100.0, 1, 800.0);
+
+		ped1.getItens().addAll(Arrays.asList(item1,item2));
+		ped2.getItens().addAll(Arrays.asList(item3));
 
 		p1.getItens().addAll(Arrays.asList(item1));
 		p2.getItens().addAll(Arrays.asList(item3));
