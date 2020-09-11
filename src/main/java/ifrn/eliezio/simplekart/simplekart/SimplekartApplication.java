@@ -13,6 +13,7 @@ import ifrn.eliezio.simplekart.simplekart.domain.Cidade;
 import ifrn.eliezio.simplekart.simplekart.domain.Cliente;
 import ifrn.eliezio.simplekart.simplekart.domain.Endereco;
 import ifrn.eliezio.simplekart.simplekart.domain.Estado;
+import ifrn.eliezio.simplekart.simplekart.domain.ItemPedido;
 import ifrn.eliezio.simplekart.simplekart.domain.Pagamento;
 import ifrn.eliezio.simplekart.simplekart.domain.PagamentoComBoleto;
 import ifrn.eliezio.simplekart.simplekart.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import ifrn.eliezio.simplekart.simplekart.repositories.CidadeRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.ClienteRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.EnderecoRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.EstadoRepository;
+import ifrn.eliezio.simplekart.simplekart.repositories.ItemPedidoRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.PagamentoRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.PedidoRepository;
 import ifrn.eliezio.simplekart.simplekart.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class SimplekartApplication implements CommandLineRunner{
 	PedidoRepository pedidoRepository;
 	@Autowired
 	PagamentoRepository pagamentoRepository;
+	@Autowired
+	ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SimplekartApplication.class, args);
@@ -111,6 +115,16 @@ public class SimplekartApplication implements CommandLineRunner{
 
 		pedidoRepository.saveAll(Arrays.asList(ped1,ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pgto1,pgto2));
+
+		ItemPedido item1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.0);
+		ItemPedido item2 = new ItemPedido(ped1, p3, 0.0, 2, 80.0);
+		ItemPedido item3 = new ItemPedido(ped2, p2, 100.0, 1, 800.0);
+
+		p1.getItens().addAll(Arrays.asList(item1));
+		p2.getItens().addAll(Arrays.asList(item3));
+		p3.getItens().addAll(Arrays.asList(item2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(item1,item2,item3));
 	}
 
 }
