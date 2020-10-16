@@ -3,10 +3,12 @@ package ifrn.eliezio.simplekart.simplekart.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import ifrn.eliezio.simplekart.simplekart.domain.Categoria;
 import ifrn.eliezio.simplekart.simplekart.repositories.CategoriaRepository;
+import ifrn.eliezio.simplekart.simplekart.services.exceptions.DataIntegrityException;
 import ifrn.eliezio.simplekart.simplekart.services.exceptions.ObjectNotFoundException;
 
 
@@ -31,4 +33,15 @@ public class CategoriaService {
         find(obj.getId());
         return repo.save(obj);
     }
+
+	public void delete(Integer id) {
+        find(id);
+        try{
+            repo.deleteById(id);
+        }
+        catch(DataIntegrityViolationException e){
+                throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos (integridade referencial). Id: "+id);
+        }
+        
+	}
 }
